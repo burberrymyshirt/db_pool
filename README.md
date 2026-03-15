@@ -17,4 +17,16 @@ async(callable $fn, array $args): string
 
 **Returns:** string
 
+### await
+
+```php
+await(string $key): mixed
+```
+
+**Parameters:**
+
+- `key` (string)
+
+**Returns:** mixed
+
 

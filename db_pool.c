@@ -49,3 +49,12 @@ PHP_FUNCTION(async)
 	RETURN_EMPTY_STRING();
 }
 
+PHP_FUNCTION(await)
+{
+    zend_string *key = NULL;
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+        Z_PARAM_STR(key)
+    ZEND_PARSE_PARAMETERS_END();
+    zval *result = go_await(key);
+}
+

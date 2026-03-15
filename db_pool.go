@@ -9,28 +9,28 @@ import (
 	"github.com/dunglas/frankenphp"
 )
 
-type Callback func(...interface{});
-type CallbackResult chan interface{};
+type Callback func(...any);
+type CallbackResult chan any;
 var callbacks map[string]CallbackResult = make(map[string]CallbackResult);
 
 //export_php:function async(callable $fn, array $args): string
 func async(fn *C.zval, args *C.zend_array) (unsafe.Pointer) {
 	channel := make(CallbackResult);
-	go_args, err := frankenphp.GoPackedArray[interface{}](unsafe.Pointer(args));
+	go_args, err := frankenphp.GoPackedArray[any](unsafe.Pointer(args));
 	if (nil != err) {
 		panic("couldn't convert zend array to golang array");
 	}
-	c := func(ch CallbackResult) {
-		ch <- frankenphp.CallPHPCallable(unsafe.Pointer(fn), go_args);
+	c := func() {
+		channel <- frankenphp.CallPHPCallable(unsafe.Pointer(fn), go_args);
 	};
 	var key string = rand.Text();
-	go c(channel);
+	go c();
 	callbacks[key] = channel;
 	return frankenphp.PHPString(key, false);
 }
 
 //export_php:function await(string $key): mixed
-func await(key *C.zend_string) (unsafe.Pointer) {
+func await(key *C.zend_string) (any) {
 	go_key := frankenphp.GoString(unsafe.Pointer(key));
 	channel := callbacks[go_key]
 	res := <-channel;
