@@ -17,4 +17,3 @@ get_connection(string $name): string
 **Returns:** string
 
 
-# db_pool
