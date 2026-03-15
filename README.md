@@ -4,15 +4,16 @@ Auto-generated PHP extension from Go code.
 
 ## Functions
 
-### get_connection
+### async
 
 ```php
-get_connection(string $name): string
+async(callable $fn, array $args): string
 ```
 
 **Parameters:**
 
-- `name` (string)
+- `fn` (callable)
+- `args` (array)
 
 **Returns:** string
 

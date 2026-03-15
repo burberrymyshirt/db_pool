@@ -33,13 +33,15 @@ zend_module_entry db_pool_module_entry = {STANDARD_MODULE_HEADER,
                                          NULL,                      /* MINFO */
                                          "1.0.0",                   /* Version */
                                          STANDARD_MODULE_PROPERTIES};
-PHP_FUNCTION(get_connection)
+PHP_FUNCTION(async)
 {
-    zend_string *name = NULL;
-    ZEND_PARSE_PARAMETERS_START(1, 1)
-        Z_PARAM_STR(name)
+    zval *fn_callback;
+    zend_array *args = NULL;
+    ZEND_PARSE_PARAMETERS_START(2, 2)
+        Z_PARAM_ZVAL(fn_callback)
+        Z_PARAM_ARRAY_HT(args)
     ZEND_PARSE_PARAMETERS_END();
-    zend_string *result = go_get_connection(name);
+    zend_string *result = go_async(fn_callback, args);
     if (result) {
         RETURN_STR(result);
     }

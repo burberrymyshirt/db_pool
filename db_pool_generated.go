@@ -23,7 +23,7 @@ func init() {
 	frankenphp.RegisterExtension(unsafe.Pointer(&C.db_pool_module_entry))
 }
 
-//export go_get_connection
-func go_get_connection(name *C.zend_string) unsafe.Pointer {
-	return get_connection(name)
+//export go_async
+func go_async(fn *C.zval, args *C.zend_array) unsafe.Pointer {
+	return async(fn, args)
 }

@@ -11,6 +11,6 @@
 // You may edit the file and remove this comment if you plan to manually maintain
 // this file going forward.
 
-function get_connection(string $name): string {}
+function async(callable $fn, array $args): string {}
 
 
