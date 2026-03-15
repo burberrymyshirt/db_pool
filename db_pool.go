@@ -4,6 +4,7 @@ package db_pool
 import "C"
 import (
 	"crypto/rand"
+	"fmt"
 	"unsafe"
 
 	"github.com/dunglas/frankenphp"
@@ -21,7 +22,9 @@ func async(fn *C.zval, args *C.zend_array) (unsafe.Pointer) {
 		panic("couldn't convert zend array to golang array");
 	}
 	c := func() {
-		channel <- frankenphp.CallPHPCallable(unsafe.Pointer(fn), go_args);
+		x := frankenphp.CallPHPCallable(unsafe.Pointer(fn), go_args);
+		fmt.Printf("got value: %v\n", x);
+		channel <- x;
 	};
 	var key string = rand.Text();
 	go c();
