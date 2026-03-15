@@ -11,7 +11,7 @@ import (
 
 type Callback func(...interface{});
 type CallbackResult chan interface{};
-var callbacks map[string]CallbackResult;
+var callbacks map[string]CallbackResult = make(map[string]CallbackResult);
 
 //export_php:function async(callable $fn, array $args): string;
 func async(fn *C.zval, args *C.zend_array) (unsafe.Pointer) {
