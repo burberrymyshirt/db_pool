@@ -55,6 +55,6 @@ PHP_FUNCTION(await)
     ZEND_PARSE_PARAMETERS_START(1, 1)
         Z_PARAM_STR(key)
     ZEND_PARSE_PARAMETERS_END();
-    zval *result = (zval*) go_await(key);
+    zval *result = (*zval) go_await(key);
 }
 
