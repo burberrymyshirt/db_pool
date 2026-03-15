@@ -13,7 +13,7 @@ type Callback func(...interface{});
 type CallbackResult chan interface{};
 var callbacks map[string]CallbackResult = make(map[string]CallbackResult);
 
-//export_php:function async(callable $fn, array $args): string;
+//export_php:function async(callable $fn, array $args): string
 func async(fn *C.zval, args *C.zend_array) (unsafe.Pointer) {
 	channel := make(CallbackResult);
 	go_args, err := frankenphp.GoPackedArray[interface{}](unsafe.Pointer(args));
@@ -29,7 +29,7 @@ func async(fn *C.zval, args *C.zend_array) (unsafe.Pointer) {
 	return frankenphp.PHPString(key, true);
 }
 
-//export_php:function await(string $key): mixed;
+//export_php:function await(string $key): mixed
 func await(key *C.zend_string) (unsafe.Pointer) {
 	go_key := frankenphp.GoString(unsafe.Pointer(key));
 	channel := callbacks[go_key]
