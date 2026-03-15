@@ -12,5 +12,6 @@
 // this file going forward.
 
 function async(callable $fn, array $args): string {}
+function await(string $key): mixed {}
 
 
