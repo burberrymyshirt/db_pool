@@ -1,4 +1,4 @@
-module github.com/burberrymyshirt/go_extension
+module github.com/burberrymyshirt/db_pool
 
 go 1.26.1
 
