@@ -16,7 +16,10 @@ var callbacks map[string]CallbackResult;
 //export_php:function async(callable $fn, array $args): string;
 func async(fn *C.zval, args *C.zend_array) (unsafe.Pointer) {
 	channel := make(CallbackResult);
-	go_args := frankenphp.GoPackedArray(unsafe.Pointer(args));
+	go_args, err := frankenphp.GoPackedArray[interface{}](unsafe.Pointer(args));
+	if (nil != err) {
+		panic("couldn't convert zend array to golang array");
+	}
 	c := func(ch CallbackResult) {
 		ch <- frankenphp.CallPHPCallable(unsafe.Pointer(fn), go_args);
 	};
