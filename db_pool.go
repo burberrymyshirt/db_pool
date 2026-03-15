@@ -5,7 +5,6 @@ import "C"
 import (
 	"crypto/rand"
 	"unsafe"
-	"fmt"
 
 	"github.com/dunglas/frankenphp"
 )
