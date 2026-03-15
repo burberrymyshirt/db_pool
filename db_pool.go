@@ -15,5 +15,5 @@ func get_connection(name *C.zend_string) unsafe.Pointer {
 
 	name = strings.Reverse(name);
 
-	return *frankenphp.PHPString(name, false);
+	return frankenphp.PHPString(name, false);
 }
