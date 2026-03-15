@@ -26,7 +26,7 @@ func async(fn *C.zval, args *C.zend_array) (unsafe.Pointer) {
 	var key string = rand.Text();
 	go c(channel);
 	callbacks[key] = channel;
-	return frankenphp.PHPString(key, true);
+	return frankenphp.PHPString(key, false);
 }
 
 //export_php:function await(string $key): mixed
