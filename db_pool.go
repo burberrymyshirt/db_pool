@@ -11,7 +11,7 @@ import (
 
 //export_php:function get_connection(string $name): string
 func get_connection(name *C.zend_string) unsafe.Pointer {
-	go_name := frankenphp.GoString((*unsafe.Pointer)(name));
+	go_name := frankenphp.GoString(unsafe.Pointer(name));
 
 	go_name = strings.ToUpper(go_name);
 
