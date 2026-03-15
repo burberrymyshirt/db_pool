@@ -27,7 +27,7 @@ func async(fn *C.zval, args *C.zend_array) (unsafe.Pointer) {
 }
 
 //export_php:function await(string $key): mixed;
-func await(key C.zend_string) (unsafe.Pointer) {
+func await(key *C.zend_string) (unsafe.Pointer) {
 	go_key := frankenphp.GoString(unsafe.Pointer(key));
 	channel := callbacks[go_key]
 	res := <-channel;
