@@ -34,5 +34,5 @@ func await(key *C.zend_string) (any) {
 	go_key := frankenphp.GoString(unsafe.Pointer(key));
 	channel := callbacks[go_key]
 	res := <-channel;
-	return frankenphp.PHPValue(res);
+	return res;
 }
