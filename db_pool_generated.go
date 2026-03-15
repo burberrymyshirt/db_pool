@@ -29,6 +29,6 @@ func go_async(fn *C.zval, args *C.zend_array) unsafe.Pointer {
 }
 
 //export go_await
-func go_await(key *C.zend_string) any {
-	return await(key)
+func go_await(key *C.zend_string) unsafe.Pointer {
+	return frankenphp.PHPValue(await(key))
 }
