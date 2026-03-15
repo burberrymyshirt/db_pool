@@ -11,9 +11,9 @@ import (
 
 //export_php:function get_connection(string $name): string
 func get_connection(name *C.zend_string) unsafe.Pointer {
-	name = frankenphp.GoString(name);
+	go_name := frankenphp.GoString((*unsafe.Pointer)(name));
 
-	name = strings.Reverse(name);
+	go_name = strings.ToUpper(go_name);
 
-	return frankenphp.PHPString(name, false);
+	return frankenphp.PHPString(go_name, false);
 }
