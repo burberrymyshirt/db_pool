@@ -3,17 +3,31 @@ package db_pool
 // #include <Zend/zend_types.h>
 import "C"
 import (
+	"crypto/rand"
 	"unsafe"
-	"strings"
 
 	"github.com/dunglas/frankenphp"
 )
 
-//export_php:function get_connection(string $name): string
-func get_connection(name *C.zend_string) unsafe.Pointer {
-	go_name := frankenphp.GoString(unsafe.Pointer(name));
+type Callback func(...interface{});
+type CallbackResult chan interface{};
+var callbacks map[string]CallbackResult;
 
-	go_name = strings.ToUpper(go_name);
+//export_php:function async(callable $fn, mixed ...$args): string;
+func async(fn C.zval, args ...interface{}) (unsafe.Pointer) {
+	channel := make(CallbackResult);
+	c := func(ch CallbackResult) {
+		ch <- frankenphp.CallPHPCallable(unsafe.Pointer(fn), args);
+	};
+	var key string = rand.Text();
+	go c(channel);
+	callbacks[key] = channel;
+	return frankenphp.PHPString(key, true);
+}
 
-	return frankenphp.PHPString(go_name, false);
+func await(key C.zend_string) (unsafe.Pointer) {
+	go_key := frankenphp.GoString(unsafe.Pointer(key));
+	channel := callbacks[go_key]
+	res := <-channel;
+	return frankenphp.PHPValue(res);
 }
